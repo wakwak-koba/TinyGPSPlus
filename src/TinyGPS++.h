@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "WProgram.h"
 #endif
 #include <limits.h>
+#include <time.h>
 
 #define _GPS_VERSION "1.0.2" // software version of this library
 #define _GPS_MPH_PER_KNOT 1.15077945
@@ -273,6 +274,9 @@ private:
   // internal utilities
   int fromHex(char a);
   bool endOfTermHandler();
+
+public:
+  time_t epoch(int tm_isdst = -1);
 };
 
 #endif // def(__TinyGPSPlus_h)

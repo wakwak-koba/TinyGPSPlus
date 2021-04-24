@@ -501,3 +501,20 @@ void TinyGPSPlus::insertCustom(TinyGPSCustom *pElt, const char *sentenceName, in
    pElt->next = *ppelt;
    *ppelt = pElt;
 }
+
+time_t TinyGPSPlus::epoch(int tm_isdst)
+{
+   if(date.isValid() && time.isValid())
+   {
+      struct tm t;
+      t.tm_year = date.year() - 1900;
+      t.tm_mon  = date.month() - 1;
+      t.tm_mday = date.day();
+      t.tm_hour = time.hour();
+      t.tm_min  = time.minute();
+      t.tm_sec  = time.second();
+      t.tm_isdst= tm_isdst;
+      return mktime(&t);
+   } else
+      return 0;
+}
