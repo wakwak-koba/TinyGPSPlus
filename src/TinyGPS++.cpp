@@ -502,8 +502,9 @@ void TinyGPSPlus::insertCustom(TinyGPSCustom *pElt, const char *sentenceName, in
    *ppelt = pElt;
 }
 
-time_t TinyGPSPlus::epoch(int tm_isdst)
+time_t TinyGPSPlus::epoch()
 {
+   time_t ret = 0;
    if(date.isValid() && time.isValid())
    {
       struct tm t;
@@ -513,8 +514,15 @@ time_t TinyGPSPlus::epoch(int tm_isdst)
       t.tm_hour = time.hour();
       t.tm_min  = time.minute();
       t.tm_sec  = time.second();
-      t.tm_isdst= tm_isdst;
-      return mktime(&t);
-   } else
-      return 0;
+      t.tm_isdst= -1;
+      
+      char *tz = getenv("TZ");
+      setenv("TZ", "", 1);
+      tzset();
+      ret = mktime(&t);
+      if (tz) setenv("TZ", tz, 1);
+      else    unsetenv("TZ");
+      tzset();
+   }
+   return ret;
 }

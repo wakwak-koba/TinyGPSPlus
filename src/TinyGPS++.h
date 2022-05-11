@@ -276,7 +276,7 @@ private:
   bool endOfTermHandler();
 
 public:
-  time_t epoch(int tm_isdst = -1);
+  time_t epoch();
 };
 
 #endif // def(__TinyGPSPlus_h)
